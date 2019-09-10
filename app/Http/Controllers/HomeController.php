@@ -19,24 +19,30 @@ class HomeController extends Controller
 
     public function index()
     {
+        define('pucblic', 1);
+        define('postNumber', 3);
         $column = 'status';
-        $keyword = 1;
-        $postsSlide = $this->postService->getPostOfNumber(3);
+        $keyword = pucblic;
+        $postsSlide = $this->postService->getPostOfNumber(postNumber);
         $total = count($this->postService->getAll());
         $posts = $this->postService->search($column, $keyword);
         $topPosts = $this->postService->getPostTopView();
         return view('index', compact('posts', 'postsSlide', 'total', "topPosts"));
     }
 
+
     //chưa lọc được các bài ẩn....
     public function search(Request $request)
     {
-        $column = 'title';
-        $keyword = $request->keywords;
-        $total = $this->postService->search($column, $keyword);
-        $posts = $this->postService->search($column, $keyword);
+        define('pucblic', 1);
+        define('postNumber', 3);
+        $columnStatus = 'status';
+        $columnTitle = 'title';
+        $postsSlide = $this->postService->getPostOfNumber(postNumber);
+        $total = count($this->postService->getAll());
+        $posts = $this->postService->searchTowColumn($columnStatus, pucblic, $columnTitle, $request->keywords);
         $topPosts = $this->postService->getPostTopView();
-        return view('guest.page.search', compact('posts', 'total', 'keyword', 'topPosts'));
+        return view('index', compact('posts', 'total', 'keyword', 'topPosts', 'postsSlide'));
     }
 
     public function show($id)

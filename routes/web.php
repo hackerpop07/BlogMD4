@@ -16,7 +16,7 @@ Route::get('/', 'HomeController@index')->name('page.index');
 Route::get('/detail/{id}', 'HomeController@show')->name('page.detail');
 Route::get('/about', 'HomeController@about')->name('page.about');
 Route::get('/contact', 'HomeController@contact')->name('page.contact');
-Route::get('/search', 'HomeController@search')->name('page.search');
+Route::post('/', 'HomeController@search')->name('page.search');
 
 Route::get('/pdf/{id}', 'HomeController@pdf')->name('page.pdf');
 
@@ -38,7 +38,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('edit/{id}', 'PostController@edit')->name('post.edit');
         Route::post('edit/{id}', 'PostController@update')->name('post.update');
         Route::get('delete/{id}', 'PostController@destroy')->name('post.destroy');
-        Route::post('search', 'PostController@search')->name('post.search');
+        Route::post('index', 'PostController@search')->name('post.search');
     });
 });
 

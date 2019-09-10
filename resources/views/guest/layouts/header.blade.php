@@ -58,7 +58,8 @@
 
     <div class="header__search">
 
-        <form role="search" method="get" class="header__search-form" action="{{route('page.search')}}">
+        <form role="search" method="post" class="header__search-form" action="{{route('page.search')}}">
+            @csrf
             <label>
                 <span class="hide-content">Search for:</span>
                 <input type="search" class="search-field" placeholder="Type Keywords" value="" name="keywords"
