@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\Contracts\PostServiceInterface;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -66,5 +67,12 @@ class HomeController extends Controller
     public function home()
     {
         return view('home');
+    }
+
+    public function pdf($id)
+    {
+        $post = $this->postService->getById($id);
+        $pdf = PDF::loadView('postPDF', compact('post'));
+        return $pdf->download('document.pdf');
     }
 }

@@ -18,6 +18,8 @@ Route::get('/about', 'HomeController@about')->name('page.about');
 Route::get('/contact', 'HomeController@contact')->name('page.contact');
 Route::get('/search', 'HomeController@search')->name('page.search');
 
+Route::get('/pdf/{id}', 'HomeController@pdf')->name('page.pdf');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@home')->name('home');

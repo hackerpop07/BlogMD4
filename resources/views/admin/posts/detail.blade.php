@@ -38,6 +38,9 @@
                        target="_blank">
                         <i class="fa fa-google-plus-square"></i>
                     </a>
+                    <a href="{{route('page.pdf',$post->id)}}">
+                        <i class="fas fa-print"></i>
+                    </a>
                 </div>
             </div>
             <!-- /.row -->
