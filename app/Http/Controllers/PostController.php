@@ -5,15 +5,24 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostStore;
 use App\Http\Requests\PostUpdate;
 use App\Services\Contracts\PostServiceInterface;
+use App\Services\Contracts\ShareLinkPostServiceInterface;
+use App\Services\Contracts\UserServiceInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
     protected $postService;
+    protected $userService;
+    protected $shareLinkPostService;
 
-    public function __construct(PostServiceInterface $postService)
+    public function __construct(PostServiceInterface $postService,
+                                UserServiceInterface $userService,
+                                ShareLinkPostServiceInterface $shareLinkPostService)
     {
         $this->postService = $postService;
+        $this->userService = $userService;
+        $this->shareLinkPostService = $shareLinkPostService;
     }
 
     public function index()
@@ -63,6 +72,46 @@ class PostController extends Controller
         $keyword = $request->keyword;
         $posts = $this->postService->search($column, $keyword);
         return view('admin.posts.list', compact('posts'));
+    }
+
+    public function shareLink(Request $request)
+    {
+        $user = $this->userService->searchEmail('email', $request->email);
+        if ($user) {
+            $data = $request->all();
+            $data['user_send'] = Auth::user()->id;
+            $data['user_get'] = $user->id;
+            $data['link_post'] = 'http://localhost:8000/detail/' . $request->post_id;
+            $this->shareLinkPostService->create($data);
+            return redirect()->back()->with('success', 'Thành Công');
+        }
+        return redirect()->back()->with('error', 'Email không tồn tại trong hệ thống');
+    }
+
+    public function getShareLink($id)
+    {
+        return view('admin.posts.share', compact('id'));
+    }
+
+    public function inbox()
+    {
+        $shareLinkPosts = $this->shareLinkPostService->search('user_get', Auth::user()->id);
+        $arrayInboxs = [];
+        foreach ($shareLinkPosts as $key => $shareLinkPost) {
+            $posts = $this->postService->getPost($shareLinkPost->id);
+            $users = $this->userService->getById($shareLinkPost->user_send);
+            $shareLinkPostId = $shareLinkPost->id;
+            $link_post = $shareLinkPost->link_post;
+            $box = [$posts, $users, $shareLinkPostId, $link_post];
+            array_push($arrayInboxs, $box);
+        }
+        return view('admin.inbox', compact('arrayInboxs'));
+    }
+
+    public function inboxDelete($id)
+    {
+        $this->shareLinkPostService->delete($id);
+        return redirect()->back()->with('success', 'Xóa Thành Công');
     }
 
 }

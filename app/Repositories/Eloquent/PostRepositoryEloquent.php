@@ -32,7 +32,8 @@ class PostRepositoryEloquent extends RepositoryEloquent implements PostRepositor
 
     public function getPostOfNumber($number)
     {
-        return $this->model->paginate($number);
+        define('publics', 1);
+        return $this->model->where('status', publics)->paginate($number);
     }
 
     public function getPostTopView()
@@ -43,5 +44,10 @@ class PostRepositoryEloquent extends RepositoryEloquent implements PostRepositor
     public function searchTowColumn($column1, $keyword1, $column2, $keyword2)
     {
         return $post = $this->model::where($column1, $keyword1)->where($column2, 'LIKE', '%' . $keyword2 . "%")->paginate(6);
+    }
+
+    public function getPost($id)
+    {
+        return $this->model::find($id);
     }
 }

@@ -3,17 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Services\Contracts\PostServiceInterface;
+use App\Services\Contracts\ShareLinkPostServiceInterface;
+use App\Services\Contracts\UserServiceInterface;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use function Aws\filter;
 
 class HomeController extends Controller
 {
     protected $postService;
+    protected $shareLinkPostService;
 
-    public function __construct(PostServiceInterface $postService)
+
+    public function __construct(PostServiceInterface $postService,
+                                ShareLinkPostServiceInterface $shareLinkPostService)
     {
         $this->postService = $postService;
+        $this->shareLinkPostService = $shareLinkPostService;
+
 //        $this->middleware('auth');
     }
 
@@ -31,7 +40,6 @@ class HomeController extends Controller
     }
 
 
-    //chưa lọc được các bài ẩn....
     public function search(Request $request)
     {
         define('pucblic', 1);
@@ -47,15 +55,46 @@ class HomeController extends Controller
 
     public function show($id)
     {
+        define('pucblic', 1);
         $postKey = 'post_' . $id;
         $post = $this->postService->getById($id);
-        if (!Session::has($postKey)) {
-            $view = ['view' => ++$post->view];
-            $post->update($view);
-            Session::put($postKey, 1);
+        if (!Auth::user()) {
+            if ($post->status == pucblic) {
+                if (!Session::has($postKey)) {
+                    $view = ['view' => ++$post->view];
+                    $post->update($view);
+                    Session::put($postKey, 1);
+                }
+                $topPosts = $this->postService->getPostTopView();
+                return view('guest.page.detail', compact('post', 'topPosts'));
+            } else {
+                return redirect()->route('page.index');
+            }
+        } else {
+            if ($post->status == pucblic && $post->user->id == Auth::user() ? 'sai' : Auth::user()->id) {
+                if (!Session::has($postKey)) {
+                    $view = ['view' => ++$post->view];
+                    $post->update($view);
+                    Session::put($postKey, 1);
+                }
+                $topPosts = $this->postService->getPostTopView();
+                return view('guest.page.detail', compact('post', 'topPosts'));
+            } else {
+                $shareLinkPosts = $this->shareLinkPostService->search('user_get', Auth::user()->id);
+                foreach ($shareLinkPosts as $key => $value) {
+                    if ($id == $value->post_id) {
+                        if (!Session::has($postKey)) {
+                            $view = ['view' => ++$post->view];
+                            $post->update($view);
+                            Session::put($postKey, 1);
+                        }
+                        $topPosts = $this->postService->getPostTopView();
+                        return view('guest.page.detail', compact('post', 'topPosts'));
+                    }
+                }
+            }
+            return redirect()->route('page.index');
         }
-        $topPosts = $this->postService->getPostTopView();
-        return view('guest.page.detail', compact('post', 'topPosts'));
     }
 
     public function about()
@@ -81,4 +120,5 @@ class HomeController extends Controller
         $pdf = PDF::loadView('postPDF', compact('post'));
         return $pdf->download('document.pdf');
     }
+
 }

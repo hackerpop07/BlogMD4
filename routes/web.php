@@ -18,6 +18,7 @@ Route::get('/about', 'HomeController@about')->name('page.about');
 Route::get('/contact', 'HomeController@contact')->name('page.contact');
 Route::post('/', 'HomeController@search')->name('page.search');
 
+
 Route::get('/pdf/{id}', 'HomeController@pdf')->name('page.pdf');
 
 Auth::routes();
@@ -39,6 +40,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('edit/{id}', 'PostController@update')->name('post.update');
         Route::get('delete/{id}', 'PostController@destroy')->name('post.destroy');
         Route::post('index', 'PostController@search')->name('post.search');
+        Route::get('/share/{id}', 'PostController@getShareLink')->name('get.shareLink');
+        Route::post('/share/{id}', 'PostController@shareLink')->name('shareLink');
+        Route::get('/inbox', 'PostController@inbox')->name('inbox');
+        Route::get('/inboxDelete/{id}', 'PostController@inboxDelete')->name('inbox.delete');
     });
 });
 

@@ -46,4 +46,9 @@ class PostService extends Service implements PostServiceInterface
     {
         return $this->repository->searchTowColumn($column1, $keyword1, $column2, $keyword2);
     }
+
+    public function getPost($id)
+    {
+        return $this->repository->getPost($id);
+    }
 }

@@ -11,4 +11,6 @@ interface PostServiceInterface extends ServiceInterface
     public function getPostTopView();
 
     public function searchTowColumn($column1, $keyword1, $column2, $keyword2);
+
+    public function getPost($id);
 }

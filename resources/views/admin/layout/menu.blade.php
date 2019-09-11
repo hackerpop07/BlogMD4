@@ -17,30 +17,23 @@
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
-{{--            <li>--}}
-{{--                <a href="#"><i class="fa fa-cube fa-fw"></i> Product<span class="fa arrow"></span></a>--}}
-{{--                <ul class="nav nav-second-level">--}}
-{{--                    <li>--}}
-{{--                        <a href="{{route('posts')}}">List Product</a>--}}
-{{--                    </li>--}}
-{{--                    <li>--}}
-{{--                        <a href="{{route('admin.product.create')}}">Add Product</a>--}}
-{{--                    </li>--}}
-{{--                </ul>--}}
-{{--                <!-- /.nav-second-level -->--}}
-{{--            </li>--}}
-{{--            <li>--}}
-{{--                <a href="#"><i class="fa fa-users fa-fw"></i> User<span class="fa arrow"></span></a>--}}
-{{--                <ul class="nav nav-second-level">--}}
-{{--                    <li>--}}
-{{--                        <a href="{{route('userLogin')}}">List User</a>--}}
-{{--                    </li>--}}
-{{--                    <li>--}}
-{{--                        <a href="{{route('admin.user.create')}}">Add User</a>--}}
-{{--                    </li>--}}
-{{--                </ul>--}}
-{{--                <!-- /.nav-second-level -->--}}
-{{--            </li>--}}
+            <ul class="nav nav-second-level">
+                <li>
+                    <a href="{{route('inbox')}}"><i class="fas fa-inbox"></i> Hộp Thư </a>
+                </li>
+            </ul>
+            {{--            <li>--}}
+            {{--                <a href="#"><i class="fa fa-users fa-fw"></i> User<span class="fa arrow"></span></a>--}}
+            {{--                <ul class="nav nav-second-level">--}}
+            {{--                    <li>--}}
+            {{--                        <a href="{{route('userLogin')}}">List User</a>--}}
+            {{--                    </li>--}}
+            {{--                    <li>--}}
+            {{--                        <a href="{{route('admin.user.create')}}">Add User</a>--}}
+            {{--                    </li>--}}
+            {{--                </ul>--}}
+            {{--                <!-- /.nav-second-level -->--}}
+            {{--            </li>--}}
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

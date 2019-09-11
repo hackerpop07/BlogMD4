@@ -41,6 +41,9 @@
                     <a href="{{route('page.pdf',$post->id)}}">
                         <i class="fas fa-print"></i>
                     </a>
+                    <a href="{{route('get.shareLink',$post->id)}}">
+                        <i class="fas fa-share-alt-square"></i>
+                    </a>
                 </div>
             </div>
             <!-- /.row -->
