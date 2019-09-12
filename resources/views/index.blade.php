@@ -27,12 +27,12 @@
 
                             <div class="item-entry__text">
                                 <div class="item-entry__cat">
-                                    <a href="category.html">Design</a>
+                                    {{--                                    <a href="category.html">Design</a>--}}
                                 </div>
 
                                 <h1 class="item-entry__title"><a
                                         href="{{route('page.detail',$value->id)}}">{{$value->title}}</a></h1>
-
+                                <small>{{$value->description}}</small>
                                 <div class="item-entry__date">
                                     <a href="{{route('page.detail',$value->id)}}">{{date_format($value->updated_at,"d-m-Y")}}</a>
                                 </div>
