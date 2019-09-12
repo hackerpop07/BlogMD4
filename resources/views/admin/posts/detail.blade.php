@@ -44,6 +44,11 @@
                     <a href="{{route('get.shareLink',$post->id)}}">
                         <i class="fas fa-share-alt-square"></i>
                     </a>
+                    @if($post->status == 1)
+                        <a href="{{route('view.send',$post->id)}}">
+                            <i class="fas fa-paper-plane"></i>
+                        </a>
+                    @endif
                 </div>
             </div>
             <!-- /.row -->

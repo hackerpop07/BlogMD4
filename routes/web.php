@@ -44,6 +44,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/share/{id}', 'PostController@shareLink')->name('shareLink');
         Route::get('/inbox', 'PostController@inbox')->name('inbox');
         Route::get('/inboxDelete/{id}', 'PostController@inboxDelete')->name('inbox.delete');
+        Route::get('/send-gmail/{id}', 'PostController@viewSendGmail')->name('view.send');
+        Route::post('/send-gmail/{id}', 'PostController@sendGmail')->name('send.gmail');
     });
 });
 

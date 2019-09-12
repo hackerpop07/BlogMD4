@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\InterfaceConstant\PostConstant;
 use App\Http\Requests\PostStore;
 use App\Http\Requests\PostUpdate;
+use App\Mail\SharePostOfGmail;
 use App\Services\Contracts\PostServiceInterface;
 use App\Services\Contracts\ShareLinkPostServiceInterface;
 use App\Services\Contracts\UserServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller
 {
@@ -81,7 +84,7 @@ class PostController extends Controller
             $data = $request->all();
             $data['user_send'] = Auth::user()->id;
             $data['user_get'] = $user->id;
-            $data['link_post'] = 'http://localhost:8000/detail/' . $request->post_id;
+            $data['link_post'] = PostConstant::LINK_POST . $request->post_id;
             $this->shareLinkPostService->create($data);
             return redirect()->back()->with('success', 'Thành Công');
         }
@@ -112,6 +115,28 @@ class PostController extends Controller
     {
         $this->shareLinkPostService->delete($id);
         return redirect()->back()->with('success', 'Xóa Thành Công');
+    }
+
+    public function viewSendGmail($id)
+    {
+        return view('admin.posts.send', compact('id'));
+    }
+
+    public function sendGmail(Request $request)
+    {
+        $linkPost = PostConstant::LINK_POST . $request->id;
+        $receiver_user = $request->name_user;
+        $user_send = Auth::user()->name;
+        $data = array('linkPost' => $linkPost,
+            "user_send" => $user_send,
+            "receiver_user" => $receiver_user
+        );
+        Mail::to($request->email)->send(new SharePostOfGmail($data));
+        if (Mail::failures()) {
+            return redirect()->back()->with('error', "Lỗi không gửi được. Hãy thử lại sau");
+        } else {
+            return redirect()->back()->with('success', "Gửi email thành công");
+        }
     }
 
 }
