@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\InterfaceConstant\PostConstant;
+use App\Http\Controllers\InterfaceConstant\PostStatusConstant;
 use App\Services\Contracts\PostServiceInterface;
 use App\Services\Contracts\ShareLinkPostServiceInterface;
-use App\Services\Contracts\UserServiceInterface;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,18 +24,13 @@ class HomeController extends Controller
         $this->postService = $postService;
         $this->shareLinkPostService = $shareLinkPostService;
 
-//        $this->middleware('auth');
     }
 
     public function index()
     {
-        define('pucblic', 1);
-        define('postNumber', 3);
-        $column = 'status';
-        $keyword = pucblic;
-        $postsSlide = $this->postService->getPostOfNumber(postNumber);
+        $postsSlide = $this->postService->getPostOfNumber(PostConstant::NUMBER_POST);
         $total = count($this->postService->getAll());
-        $posts = $this->postService->search($column, $keyword);
+        $posts = $this->postService->search('status', PostStatusConstant::PUBLIC);
         $topPosts = $this->postService->getPostTopView();
         return view('index', compact('posts', 'postsSlide', 'total', "topPosts"));
     }
@@ -42,24 +38,19 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
-        define('pucblic', 1);
-        define('postNumber', 3);
-        $columnStatus = 'status';
-        $columnTitle = 'title';
-        $postsSlide = $this->postService->getPostOfNumber(postNumber);
+        $postsSlide = $this->postService->getPostOfNumber(PostConstant::NUMBER_POST);
         $total = count($this->postService->getAll());
-        $posts = $this->postService->searchTowColumn($columnStatus, pucblic, $columnTitle, $request->keywords);
+        $posts = $this->postService->searchTowColumn('status', PostStatusConstant::PUBLIC, 'title', $request->keywords);
         $topPosts = $this->postService->getPostTopView();
         return view('index', compact('posts', 'total', 'keyword', 'topPosts', 'postsSlide'));
     }
 
     public function show($id)
     {
-        define('pucblic', 1);
         $postKey = 'post_' . $id;
         $post = $this->postService->getById($id);
         if (!Auth::user()) {
-            if ($post->status == pucblic) {
+            if ($post->status == PostStatusConstant::PUBLIC) {
                 if (!Session::has($postKey)) {
                     $view = ['view' => ++$post->view];
                     $post->update($view);
@@ -71,7 +62,7 @@ class HomeController extends Controller
                 return redirect()->route('page.index');
             }
         } else {
-            if ($post->status == pucblic && $post->user->id == Auth::user() ? 'sai' : Auth::user()->id) {
+            if ($post->status == PostStatusConstant::PUBLIC || $post->user->id == Auth::user()->id) {
                 if (!Session::has($postKey)) {
                     $view = ['view' => ++$post->view];
                     $post->update($view);
