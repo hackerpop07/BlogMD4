@@ -74,6 +74,16 @@
                         </div>
                         @enderror
 
+                        <div class="form-group">
+                            <label>TAG</label>
+                            <input class="form-control" name="tag" data-role="tagsinput" value="{{ old('tag') }}"/>
+                        </div>
+                        @error('tag')
+                        <div class="alert alert-danger" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                        @enderror
+
 
                         <button type="submit" class="btn btn-default">Thêm Mới</button>
                         <button type="reset" class="btn btn-default">Reset</button>

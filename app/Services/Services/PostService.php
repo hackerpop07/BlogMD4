@@ -6,13 +6,19 @@ namespace App\Services\Services;
 
 use App\Repositories\Contracts\PostRepositoryInterface;
 use App\Services\Contracts\PostServiceInterface;
+
+use App\Services\Contracts\TagServiceInterface;
 use Illuminate\Support\Facades\Auth;
 
 class PostService extends Service implements PostServiceInterface
 {
-    public function __construct(PostRepositoryInterface $postRepository)
+    protected $tagService;
+
+    public function __construct(PostRepositoryInterface $postRepository,
+                                TagServiceInterface $tagService)
     {
         $this->setRepository($postRepository);
+        $this->tagService = $tagService;
     }
 
     public function getAllOfUserLogin()
@@ -33,7 +39,60 @@ class PostService extends Service implements PostServiceInterface
             $array = $request->all();
             $array['image'] = $file->hashName();
             $array['user_id'] = Auth::user()->id;
-            $this->repository->create($array);
+            $post = $this->repository->create($array);
+            if ($post) {
+                $arrayTag = explode(',', $request->input('tag'));
+                $tagIds = [];
+                foreach ($arrayTag as $tagName) {
+                    $tag = $this->tagService->firstOrCreate(['name' => $tagName]);
+                    if ($tag) {
+                        $tagIds[] = $tag->id;
+                    }
+                }
+                $post->tag()->sync($tagIds);
+            }
+        }
+    }
+
+    public function update($request, $id)
+    {
+        $result = $this->repository->getById($id);
+        if ($result) {
+            if ($request->hasFile('image')) {
+                if ($result->image !== '1.png') {
+                    //chua xoa dc
+                    $this->deleteFile('image/' . $result->image);
+                }
+                $file = $request->image;
+                $file->store('/image', 'public');
+                $array = $request->all();
+                $array['image'] = $file->hashName();
+                $post = $this->repository->update($array, $result);
+                if ($post) {
+                    $arrayTag = explode(',', $request->input('tag'));
+                    $tagIds = [];
+                    foreach ($arrayTag as $tagName) {
+                        $tag = $this->tagService->firstOrCreate(['name' => $tagName]);
+                        if ($tag) {
+                            $tagIds[] = $tag->id;
+                        }
+                    }
+                    $result->tag()->sync($tagIds);
+                }
+            } else {
+                $post = $this->repository->update($request->all(), $result);
+                if ($post) {
+                    $arrayTag = explode(',', $request->input('tag'));
+                    $tagIds = [];
+                    foreach ($arrayTag as $tagName) {
+                        $tag = $this->tagService->firstOrCreate(['name' => $tagName]);
+                        if ($tag) {
+                            $tagIds[] = $tag->id;
+                        }
+                    }
+                    $result->tag()->sync($tagIds);
+                }
+            }
         }
     }
 
@@ -51,4 +110,5 @@ class PostService extends Service implements PostServiceInterface
     {
         return $this->repository->getPost($id);
     }
+
 }
