@@ -18,4 +18,6 @@ interface ServiceInterface
 
     public function search($column, $keyword);
 
+    public function getAllOfUserLogin();
+
 }

@@ -10,24 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class PostRepositoryEloquent extends RepositoryEloquent implements PostRepositoryInterface
 {
-    protected $userLogin;
 
     public function getModel()
     {
         return Post::class;
-    }
-
-    public function getUserLogin()
-    {
-        $this->userLogin = Auth::user();
-        return $this->userLogin;
-    }
-
-    public function getAllOfUserLogin()
-    {
-        $column = "user_id";
-        $keyword = $this->getUserLogin()->id;
-        return $this->search($column, $keyword);
     }
 
     public function getPostOfNumber($number)
@@ -41,13 +27,13 @@ class PostRepositoryEloquent extends RepositoryEloquent implements PostRepositor
         return $this->model->orderBy('view', 'desc')->paginate(6);
     }
 
-    public function searchTowColumn($column1, $keyword1, $column2, $keyword2)
-    {
-        return $post = $this->model::where($column1, $keyword1)->where($column2, 'LIKE', '%' . $keyword2 . "%")->paginate(6);
-    }
-
     public function getPost($id)
     {
         return $this->model::find($id);
+    }
+
+    public function searchTowColumn($column1, $keyword1, $column2, $keyword2)
+    {
+        return $post = $this->model::where($column1, $keyword1)->where($column2, 'LIKE', '%' . $keyword2 . "%")->paginate(6);
     }
 }

@@ -76,4 +76,11 @@ class Service implements ServiceInterface
         $file = new Filesystem();
         $file->delete($url);
     }
+
+    public function getAllOfUserLogin()
+    {
+        return $this->repository->getAllOfUserLogin();
+    }
+
+
 }

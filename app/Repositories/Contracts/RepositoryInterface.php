@@ -17,4 +17,8 @@ interface RepositoryInterface
     public function getById($id);
 
     public function search($keyword, $column);
+
+    public function getAllOfUserLogin();
+
+
 }

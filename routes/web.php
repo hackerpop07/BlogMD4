@@ -48,6 +48,22 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/send-gmail/{id}', 'PostController@viewSendGmail')->name('view.send');
         Route::post('/send-gmail/{id}', 'PostController@sendGmail')->name('send.gmail');
     });
+    Route::prefix('images')->group(function () {
+        Route::get('index', 'ImageAlbumController@index')->name('images.index');
+        Route::get('detail', 'ImageAlbumController@show')->name('images.show');
+        Route::get('create', 'ImageAlbumController@create')->name('images.create');
+        Route::post('create', 'ImageAlbumController@store')->name('images.store');
+        Route::get('edit/{id}', 'ImageAlbumController@edit')->name('images.edit');
+        Route::post('edit/{id}', 'ImageAlbumController@update')->name('images.update');
+        Route::get('delete/{id}', 'ImageAlbumController@destroy')->name('images.destroy');
+        Route::post('index', 'ImageAlbumController@search')->name('images.search');
+        Route::get('/share/{id}', 'PostController@getShareLink')->name('get.shareLink');
+        Route::post('/share/{id}', 'PostController@shareLink')->name('shareLink');
+        Route::get('/inbox', 'PostController@inbox')->name('inbox');
+        Route::get('/inboxDelete/{id}', 'PostController@inboxDelete')->name('inbox.delete');
+        Route::get('/send-gmail/{id}', 'PostController@viewSendGmail')->name('view.send');
+        Route::post('/send-gmail/{id}', 'PostController@sendGmail')->name('send.gmail');
+    });
 });
 
 
