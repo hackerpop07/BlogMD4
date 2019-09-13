@@ -17,6 +17,7 @@ Route::get('/detail/{id}', 'HomeController@show')->name('page.detail');
 Route::get('/about', 'HomeController@about')->name('page.about');
 Route::get('/contact', 'HomeController@contact')->name('page.contact');
 Route::post('/', 'HomeController@search')->name('page.search');
+Route::get('/tag/{tag}', 'HomeController@tag')->name('page.tag');
 
 
 Route::get('/pdf/{id}', 'HomeController@pdf')->name('page.pdf');

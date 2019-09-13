@@ -49,7 +49,7 @@ class PostService extends Service implements PostServiceInterface
                         $tagIds[] = $tag->id;
                     }
                 }
-                $post->tag()->sync($tagIds);
+                $post->tags()->sync($tagIds);
             }
         }
     }
@@ -77,7 +77,7 @@ class PostService extends Service implements PostServiceInterface
                             $tagIds[] = $tag->id;
                         }
                     }
-                    $result->tag()->sync($tagIds);
+                    $result->tags()->sync($tagIds);
                 }
             } else {
                 $post = $this->repository->update($request->all(), $result);
@@ -90,7 +90,7 @@ class PostService extends Service implements PostServiceInterface
                             $tagIds[] = $tag->id;
                         }
                     }
-                    $result->tag()->sync($tagIds);
+                    $result->tags()->sync($tagIds);
                 }
             }
         }

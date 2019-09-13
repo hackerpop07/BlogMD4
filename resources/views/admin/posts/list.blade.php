@@ -50,7 +50,7 @@
                             <td>{{ str_limit($value->description,20) }}</td>
                             <td>{!! str_limit($value->content,20) !!}</td>
                             <td><img src="storage/image/{{$value->image}}" style="height: 50px"></td>
-                            <td>@foreach ($value->tag as $singleTag)
+                            <td>@foreach ($value->tags as $singleTag)
                                     <span class="label label-info label-many">{{ $singleTag->name }}</span>
                                 @endforeach</td>
                             @if($value->status==1)

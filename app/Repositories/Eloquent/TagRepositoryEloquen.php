@@ -19,4 +19,9 @@ class TagRepositoryEloquen extends RepositoryEloquent implements TagRepositoryIn
     {
         return $this->model::firstOrCreate($request);
     }
+
+    public function searchFirstOrFail($column, $keyword)
+    {
+        return $this->model::where($column, $keyword)->firstOrFail();
+    }
 }

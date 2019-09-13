@@ -6,6 +6,7 @@ use App\Http\Controllers\InterfaceConstant\PostConstant;
 use App\Http\Controllers\InterfaceConstant\PostStatusConstant;
 use App\Services\Contracts\PostServiceInterface;
 use App\Services\Contracts\ShareLinkPostServiceInterface;
+use App\Services\Contracts\TagServiceInterface;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,13 +17,17 @@ class HomeController extends Controller
 {
     protected $postService;
     protected $shareLinkPostService;
+    protected $tagService;
 
 
     public function __construct(PostServiceInterface $postService,
-                                ShareLinkPostServiceInterface $shareLinkPostService)
+                                ShareLinkPostServiceInterface $shareLinkPostService,
+                                TagServiceInterface $tagService
+    )
     {
         $this->postService = $postService;
         $this->shareLinkPostService = $shareLinkPostService;
+        $this->tagService = $tagService;
 
     }
 
@@ -110,6 +115,14 @@ class HomeController extends Controller
         $post = $this->postService->getById($id);
         $pdf = PDF::loadView('postPDF', compact('post'));
         return $pdf->download('document.pdf');
+    }
+
+    public function tag($tag)
+    {
+        $tag = $this->tagService->searchFirstOrFail('name', $tag);
+        $posts = $tag->posts;
+        $topPosts = $this->postService->getPostTopView();
+        return view('guest.page.tag', compact('posts', 'topPosts'));
     }
 
 }

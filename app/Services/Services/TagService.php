@@ -18,4 +18,9 @@ class TagService extends Service implements TagServiceInterface
     {
         return $this->repository->firstOrCreate($request);
     }
+
+    public function searchFirstOrFail($column, $keyword)
+    {
+        return $this->repository->searchFirstOrFail($column, $keyword);
+    }
 }

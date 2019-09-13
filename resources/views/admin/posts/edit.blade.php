@@ -84,7 +84,7 @@
                         <div class="form-group">
                             <label>TAG</label>
                             <input class="form-control" name="tag" data-role="tagsinput"
-                                   value="@foreach($post->tag as $tag)
+                                   value="@foreach($post->tags as $tag)
                                    {{$tag->name}},
                                             @endforeach"/>
                         </div>
