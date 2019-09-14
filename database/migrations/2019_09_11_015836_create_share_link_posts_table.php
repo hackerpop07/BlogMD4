@@ -16,7 +16,7 @@ class CreateShareLinkPostsTable extends Migration
         Schema::create('share_link_posts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('user_send');
-            $table->string('post_id');
+            $table->string('post_id')->nullable();
             $table->string('user_get');
             $table->string('link_post');
             $table->timestamps();

@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Send
+                    <h1 class="page-header">Chia sẻ cho các Tài Khoản nội bộ
                     </h1>
                 </div>
                 <!-- /.col-lg-12 -->

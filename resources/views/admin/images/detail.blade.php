@@ -5,10 +5,8 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-
                     <h1 class="page-header" style="text-align: center">Album Ảnh
                     </h1>
-
                 </div>
                 <div class="entry__media col-full">
                     <div class="entry__post-thumb">
@@ -22,8 +20,6 @@
                     </div>
                 </div>
                 <br>
-
-
                 <div class="social-buttons" style="font-size: 30px">
                     <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}"
                        target="_blank">
@@ -40,10 +36,15 @@
                     {{--                    <a href="{{route('page.pdf',$images->id)}}">--}}
                     {{--                        <i class="fas fa-print"></i>--}}
                     {{--                    </a>--}}
-                    {{--                    <a href="{{route('get.shareLink',$images->id)}}">--}}
-                    {{--                        <i class="fas fa-share-alt-square"></i>--}}
-                    {{--                    </a>--}}
+                    <a href="{{route('get.shareLink.images',['id'=>$user->id])}}">
+                        <i class="fas fa-share-alt-square"></i>
+                    </a>
+                    <a href="{{route('view.send.images')}}">
+                        <i class="fas fa-paper-plane"></i>
+                    </a>
                 </div>
+
+
             </div>
             <!-- /.row -->
         </div>

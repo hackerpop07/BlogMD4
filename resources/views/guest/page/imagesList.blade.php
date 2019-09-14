@@ -1,27 +1,27 @@
 @extends('guest.layouts.master')
 @section('content')
 
-    @include('guest.layouts.slide')
-
     <!-- s-content
 ================================================== -->
     <section class="s-content">
-        <div style="text-align: center">
-            @if(!$total)
-                Có {{$total}} Giá Trị
-            @endif
-        </div>
+        <br>
+        <br>
         <div class="row entries-wrap wide">
             <div class="entries">
-                @forelse($posts as $key => $value)
+                @forelse($users as $key => $value)
                     <article class="col-block">
 
                         <div class="item-entry" data-aos="zoom-in">
                             <div class="item-entry__thumb">
-                                <a href="{{route('page.detail',$value->id)}}" class="item-entry__thumb-link">
-                                    <img src="{{'storage/image/'.$value->image}}"
-                                         style="width: 315px;height: 210px"
-                                         alt="">
+                                <a href="{{route('page.images.detail',$value->id)}}" class="item-entry__thumb-link">
+                                    @foreach($value->images as $image)
+                                        @if($image->status == 1)
+                                            <img src="{{'storage/image/'.$image->path}}"
+                                                 style="width: 315px;height: 210px"
+                                                 alt="">
+                                            @break
+                                        @endif
+                                    @endforeach
                                 </a>
                             </div>
 
@@ -31,8 +31,8 @@
                                 </div>
 
                                 <h1 class="item-entry__title"><a
-                                        href="{{route('page.detail',$value->id)}}">{{$value->title}}</a></h1>
-                                <small>{{$value->description}}</small>
+                                        href="{{route('page.images.detail',$value->id)}}">{{$value->name}}</a></h1>
+                                <label>Album Ảnh</label>
                                 <div class="item-entry__date">
                                     <a href="{{route('page.detail',$value->id)}}">{{date_format($value->updated_at,"d-m-Y")}}</a>
                                 </div>
@@ -61,12 +61,12 @@
                         <li><a class="pgn__num" href="#0">8</a></li>
                         <li><a class="pgn__next" href="#0">Next</a></li>
                     </ul>
-                    {{$posts->links()}}
+                    {{--                    {{$users->links()}}--}}
                 </nav>
             </div>
         </div>
 
     </section> <!-- end s-content -->
-    @include('guest.layouts.extra')
+
 @endsection
 

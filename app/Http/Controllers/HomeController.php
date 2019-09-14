@@ -7,6 +7,7 @@ use App\Http\Controllers\InterfaceConstant\PostStatusConstant;
 use App\Services\Contracts\PostServiceInterface;
 use App\Services\Contracts\ShareLinkPostServiceInterface;
 use App\Services\Contracts\TagServiceInterface;
+use App\Services\Contracts\UserServiceInterface;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,16 +19,19 @@ class HomeController extends Controller
     protected $postService;
     protected $shareLinkPostService;
     protected $tagService;
+    protected $userService;
 
 
     public function __construct(PostServiceInterface $postService,
                                 ShareLinkPostServiceInterface $shareLinkPostService,
-                                TagServiceInterface $tagService
+                                TagServiceInterface $tagService,
+                                UserServiceInterface $userService
     )
     {
         $this->postService = $postService;
         $this->shareLinkPostService = $shareLinkPostService;
         $this->tagService = $tagService;
+        $this->userService = $userService;
 
     }
 
@@ -123,6 +127,18 @@ class HomeController extends Controller
         $posts = $tag->posts;
         $topPosts = $this->postService->getPostTopView();
         return view('guest.page.tag', compact('posts', 'topPosts'));
+    }
+
+    public function imagesList()
+    {
+        $users = $this->userService->getAll();
+        return view('guest.page.imagesList', compact('users'));
+    }
+
+    public function imagesDetail($id)
+    {
+        $user = $this->userService->getById($id);
+        return view('guest.page.imagesDetail', compact('user'));
     }
 
 }

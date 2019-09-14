@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Send
+                    <h1 class="page-header">Gửi Email
                     </h1>
                 </div>
                 <!-- /.col-lg-12 -->
                 <div class="col-lg-7" style="padding-bottom:120px">
-                    <form action="{{route('send.gmail',$id)}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('send.gmail.images')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @if(session('error'))
                             <div class="alert alert-danger">
@@ -40,7 +40,6 @@
                             <strong>{{ $message }}</strong>
                         </div>
                         @enderror
-                        <input type="hidden" value="{{$id}}" name="post_id">
 
                         <button type="submit" class="btn btn-default">Gửi</button>
                         <button type="reset" class="btn btn-default">Reset</button>
