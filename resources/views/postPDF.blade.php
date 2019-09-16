@@ -57,10 +57,7 @@
         <div class="entry__media col-full">
             <div class="entry__post-thumb">
                 <img src="{{'storage/image/'.$post->image}}"
-                     srcset="{{'storage/image/'.$post->image}} 2000w,
-                                 {{'storage/image/'.$post->image}} 1000w,
-                                 {{'storage/image/'.$post->image}} 500w"
-                     sizes="(max-width: 2000px) 100vw, 2000px" alt="">
+                     style="width: 500px" alt="">
             </div>
         </div>
 

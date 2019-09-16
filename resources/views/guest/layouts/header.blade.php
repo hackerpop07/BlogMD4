@@ -54,7 +54,7 @@
         </a>
     </div> <!-- end header__logo -->
 
-    <a class="header__search-trigger" href="#0"></a>
+    <a class="header__search-trigger" style="left: 400px; right: auto" href="#0"></a>
 
     <div class="header__search">
 
@@ -73,16 +73,17 @@
     </div>  <!-- end header__search -->
 
     <a class="header__toggle-menu" href="#0" title="Menu"><span>Menu</span></a>
-    <nav class="header__nav-wrap">
+    <nav class="header__nav-wrap" style="width: 95%; float: right">
 
         <h2 class="header__nav-heading h6">Navigate to</h2>
 
-        <ul class="header__nav">
+        <ul class="header__nav" style="float: right">
             <li class="current"><a href="/" title="">Home</a></li>
             <li><a href="{{route('page.images')}}">Album Ảnh</a></li>
             {{--            <li><a href="style-guide.html" title="">Styles</a></li>--}}
             <li><a href="{{route('page.about')}}" title="">About</a></li>
             <li><a href="{{route('page.contact')}}" title="">Contact</a></li>
+
             @if (Route::has('login'))
                 @auth
                     <li class="has-children">
@@ -115,6 +116,8 @@
         </ul> <!-- end header__nav -->
 
         <a href="#0" title="Close Menu" class="header__overlay-close close-mobile-menu">Close</a>
+
+
 
     </nav> <!-- end header__nav-wrap -->
 </header> <!-- s-header -->

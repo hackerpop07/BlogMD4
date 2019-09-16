@@ -125,11 +125,9 @@ class PostController extends Controller
     public function sendGmail(Request $request)
     {
         $linkPost = PostConstant::LINK_POST . $request->id;
-        $receiver_user = $request->name_user;
-        $user_send = Auth::user()->name;
         $data = array('linkPost' => $linkPost,
-            "user_send" => $user_send,
-            "receiver_user" => $receiver_user
+            "user_send" => Auth::user()->name,
+            "receiver_user" => $request->name_user
         );
         Mail::to($request->email)->send(new SharePostOfGmail($data));
         if (Mail::failures()) {
