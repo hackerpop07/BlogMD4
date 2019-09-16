@@ -14,4 +14,9 @@ class UserRepositoryEloquent extends RepositoryEloquent implements UserRepositor
     {
         return User::class;
     }
+
+    public function searchEmail($column, $keyword)
+    {
+        return $this->model::where($column, $keyword)->first();
+    }
 }

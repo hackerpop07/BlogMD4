@@ -6,6 +6,7 @@ namespace App\Services\Services;
 
 use App\Services\Contracts\ServiceInterface;
 use Illuminate\Filesystem\Filesystem;
+use Monolog\Handler\IFTTTHandler;
 
 class Service implements ServiceInterface
 {
@@ -28,14 +29,16 @@ class Service implements ServiceInterface
 
     public function create($request)
     {
-        dd($request->hasFile('image'));
-        if ($request->hasFile('image')) {
-            $file = $request->image;
-            $file->store('/image', 'public');
-            $array = $request->all();
-            $array['image'] = $file->hashName();
-            $this->repository->create($array);
+        if (isset($request->image)) {
+            if ($request->hasFile('image')) {
+                $file = $request->image;
+                $file->store('/image', 'public');
+                $array = $request->all();
+                $array['image'] = $file->hashName();
+                $this->repository->create($array);
+            }
         }
+        $this->repository->create($request);
     }
 
     public function update($request, $id)
@@ -73,4 +76,11 @@ class Service implements ServiceInterface
         $file = new Filesystem();
         $file->delete($url);
     }
+
+    public function getAllOfUserLogin()
+    {
+        return $this->repository->getAllOfUserLogin();
+    }
+
+
 }

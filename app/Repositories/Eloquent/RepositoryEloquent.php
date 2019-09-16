@@ -5,10 +5,12 @@ namespace App\Repositories\Eloquent;
 
 
 use App\Repositories\Contracts\RepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 abstract class RepositoryEloquent implements RepositoryInterface
 {
     protected $model;
+    protected $userLogin;
 
     public function __construct()
     {
@@ -52,4 +54,21 @@ abstract class RepositoryEloquent implements RepositoryInterface
     {
         return $this->model::where($column, "LIKE", "%" . $keyword . "%")->orderBy('updated_at', 'desc')->paginate(6);
     }
+
+    public function getUserLogin()
+    {
+        $this->userLogin = Auth::user();
+        return $this->userLogin;
+    }
+
+    public function getAllOfUserLogin()
+    {
+        $column = "user_id";
+        $keyword = $this->getUserLogin()->id;
+        return $this->search($column, $keyword);
+    }
+
+
+
+
 }

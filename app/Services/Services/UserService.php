@@ -17,20 +17,9 @@ class UserService extends Service implements UserServiceInterface
         $this->setRepository($userRepository);
     }
 
-    public function changePassword($request)
+    public function searchEmail($column, $keyword)
     {
-//        if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
-//            // The passwords matches
-//            return redirect()->back()->with("error", "Mật khẩu cũ không chính xác. Vui lòng thử lại.");
-//        }
-//        if (strcmp($request->get('current-password'), $request->get('new-password')) == 0) {
-//            //Current password and new password are same
-//            return redirect()->back()->with("error", "Mật khẩu mới không thể giống như mật khẩu cũ của bạn. Vui lòng chọn một mật khẩu khác nhau.");
-//        }
-//        //Change Password
-//        $user = Auth::user();
-//        $user->password = bcrypt($request->get('new-password'));
-//        $user->save();
-//        return redirect()->back()->with("success", "Mật khẩu đã thay đổi thành công!");
+        return $this->repository->searchEmail($column, $keyword);
     }
+
 }

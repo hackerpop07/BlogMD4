@@ -23,7 +23,7 @@ class SocialController extends Controller
             return redirect('/');
         } else {
             $users = $this->createUser($userSocial, $provider);
-            return redirect()->route('home');
+            return redirect()->route('page.index');
         }
     }
 

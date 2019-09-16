@@ -36,6 +36,7 @@
                         <th>Mô Tả</th>
                         <th>Nội Dung</th>
                         <th>Ảnh</th>
+                        <th>Tag</th>
                         <th>Trạng Thái</th>
                         <th>Xóa</th>
                         <th>Chỉnh Sửa</th>
@@ -49,6 +50,9 @@
                             <td>{{ str_limit($value->description,20) }}</td>
                             <td>{!! str_limit($value->content,20) !!}</td>
                             <td><img src="storage/image/{{$value->image}}" style="height: 50px"></td>
+                            <td>@foreach ($value->tags as $singleTag)
+                                    <span class="label label-info label-many">{{ $singleTag->name }}</span>
+                                @endforeach</td>
                             @if($value->status==1)
                                 <td>Công Khai</td>
                             @else

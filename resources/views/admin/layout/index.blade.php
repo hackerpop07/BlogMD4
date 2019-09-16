@@ -8,9 +8,11 @@
     <title> Admin </title>
     <base href="{{asset('')}}">
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.2/css/all.css"
+          integrity="sha384-rtJEYb85SiYWgfpCr0jn174XgJTn4rptSOQsMroFBPQSGLdOC5IbubP6lJ35qoM9" crossorigin="anonymous">
     <!-- Bootstrap Core CSS -->
     <link href="storage/admin_asset/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="storage/admin_asset/js/tagsinput.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
     <link href="storage/admin_asset/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
@@ -53,6 +55,7 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="storage/admin_asset/dist/js/sb-admin-2.js"></script>
+<script src="storage/admin_asset/js/tagsinput.js"></script>
 
 <!-- DataTables JavaScript -->
 <script src="storage/admin_asset/bower_components/DataTables/media/js/jquery.dataTables.min.js"></script>

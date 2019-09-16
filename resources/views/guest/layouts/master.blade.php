@@ -4,6 +4,6 @@
 @yield("content")
 
 
-@include('guest.layouts.extra')
+
 @include('guest.layouts.footer')
 
